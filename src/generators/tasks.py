@@ -18,6 +18,8 @@ def generate_tasks(conn, projects, users_by_team, sections_by_project):
             completed = random.random() < meta["completion_rate"]
 
             assignee = None
+            # Heuristic: 15% of tasks are unassigned (per Asana benchmarks)
+            # Assignees are chosen from the project's owning team
             if team_users and random.random() > 0.15:
                 assignee = random.choice(team_users)
 
@@ -30,7 +32,7 @@ def generate_tasks(conn, projects, users_by_team, sections_by_project):
                 random.choice(sections),
                 assignee,
                 None,
-                random.choice([None, None, None, created.date()]),
+                random.choice([None, None, None, created.date()]), # Heuristic: ~25% have due dates
                 created,
                 completed,
                 completion_after(created) if completed else None

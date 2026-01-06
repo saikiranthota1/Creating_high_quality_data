@@ -12,6 +12,7 @@ from generators.sections import generate_sections
 from generators.tasks import generate_tasks
 from generators.custom_fields import generate_custom_fields
 from generators.attachments import generate_attachments
+from generators.comments import generate_comments
 
 load_dotenv()
 
@@ -43,6 +44,7 @@ def main():
     task_ids = generate_tasks(conn, projects, users_by_team, sections_by_project)
     generate_custom_fields(conn, list(projects.keys()), task_ids)
     generate_attachments(conn, task_ids)
+    generate_comments(conn, task_ids, users)
 
     conn.commit()
     conn.close()
